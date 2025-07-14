@@ -3,25 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cooperativa;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CooperativaController extends Controller
 {
     public function index()
     {
-        $cooperativas = Cooperativa::all();
+        $cooperativas = Cooperativa::with('owner')->get();
         return response()->json($cooperativas);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombres' => 'required|string|max:100',
-            'dirrecion' => 'required|string|max:100',
-            'celular' => 'required|string|max:100',
+        $validated = $request->validate([
+        'nombres' => 'required|string|max:255',
+        'dirrecion' => 'required|string|max:255',
+        'celular' => 'required|string|max:20',
         ]);
 
-        $cooperativa = Cooperativa::create($request->all());
+        // Asociar al proveedor actual autenticado
+        $validated['user_id'] = auth()->id();
+
+        $cooperativa = Cooperativa::create($validated);
+
         return response()->json($cooperativa, 201);
     }
 
@@ -48,6 +53,6 @@ class CooperativaController extends Controller
     {
         $cooperativa = Cooperativa::findOrFail($id);
         $cooperativa->delete();
-        return response()->json(null, 204);
+        return response()->json(compact('cooperativa'), 200);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CooperativaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,4 +60,12 @@ Route::middleware(['jwt.verify', 'role:admin'])->prefix('users')->group(function
     Route::post('/usuarios', [UsuarioController::class, 'store']);
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
+});
+
+Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('cooperativa')->group(function(){
+    Route::get('/cooperativa', [CooperativaController::class, 'index']);
+    Route::get('/cooperativa/{id}', [CooperativaController::class, 'show']);
+    Route::post('/cooperativa', [CooperativaController::class, 'store']);
+    Route::put('/cooperativa/{id}', [CooperativaController::class, 'update']);
+    Route::delete('/cooperativa/{id}', [CooperativaController::class, 'destroy']);
 });
