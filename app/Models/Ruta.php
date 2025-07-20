@@ -16,6 +16,7 @@ class Ruta extends Model
         'fechaSalida',
         'horaSalida',
         'cooperativa_id',
+        'bus_id',
     ];
 
     public function cooperativa(){
@@ -24,5 +25,8 @@ class Ruta extends Model
 
     public function reservas(){
         return $this->hasMany(Reserva::class);
+    }
+    public function bus(){
+        return $this->belongsTo(Bus::class);
     }
 }

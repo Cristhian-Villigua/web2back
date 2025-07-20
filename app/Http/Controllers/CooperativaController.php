@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cooperativa;
+use App\Models\Bus;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class CooperativaController extends Controller
 {
     public function index()
     {
-        $cooperativas = Cooperativa::with('owner')->get();
+        $cooperativas = Cooperativa::with('owner', 'buses')->get();
         return response()->json($cooperativas);
     }
 

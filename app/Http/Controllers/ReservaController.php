@@ -25,7 +25,7 @@ class ReservaController extends Controller
         ]);
 
         $reserva = Reserva::create($request->all());
-        return response()->json($reserva, 201);
+        return response()->json($reserva, 200);
     }
 
     public function show($id)
@@ -47,13 +47,13 @@ class ReservaController extends Controller
 
         $reserva = Reserva::findOrFail($id);
         $reserva->update($request->all());
-        return response()->json($reserva);
+        return response()->json($reserva, 200);
     }
 
     public function destroy($id)
     {
         $reserva = Reserva::findOrFail($id);
         $reserva->delete();
-        return response()->json(null, 204);
+        return response()->json(compact('reserva'), 200);
     }
 }

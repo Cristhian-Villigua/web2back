@@ -6,6 +6,8 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CooperativaController;
+use App\Http\Controllers\BusController;
+use App\Http\Controllers\RutaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,4 +70,20 @@ Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('cooperativa')
     Route::post('/cooperativa', [CooperativaController::class, 'store']);
     Route::put('/cooperativa/{id}', [CooperativaController::class, 'update']);
     Route::delete('/cooperativa/{id}', [CooperativaController::class, 'destroy']);
+});
+
+Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('bus')->group(function(){
+    Route::get('/bus', [BusController::class, 'index']);
+    Route::get('/bus/{id}', [BusController::class, 'show']);
+    Route::post('/bus', [BusController::class, 'store']);
+    Route::put('/bus/{id}', [BusController::class, 'update']);
+    Route::delete('/bus/{id}', [BusController::class, 'destroy']);
+});
+
+Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('rutas')->group(function(){
+    Route::get('/rutas', [RutaController::class, 'index']);
+    Route::get('/rutas/{id}', [RutaController::class, 'show']);
+    Route::post('/rutas', [RutaController::class, 'store']);
+    Route::put('/rutas/{id}', [RutaController::class, 'update']);
+    Route::delete('/rutas/{id}', [RutaController::class, 'destroy']);
 });

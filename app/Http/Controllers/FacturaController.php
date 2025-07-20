@@ -11,7 +11,7 @@ class FacturaController extends Controller
     public function index()
     {
         $facturas = Factura::all();
-        return response()->json($facturas);
+        return response()->json(compact('facturas'), 200);
     }
 
     public function show($id)
@@ -42,13 +42,13 @@ class FacturaController extends Controller
         ]);
 
         $factura->update($request->all());
-        return response()->json($factura);
+        return response()->json($factura, 200);
     }
 
     public function destroy($id)
     {
         $factura = Factura::findOrFail($id);
         $factura->delete();
-        return response()->json(null, 204);
+        return response()->json(compact('factura'), 200);
     }
 }

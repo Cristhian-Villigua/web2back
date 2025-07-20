@@ -10,7 +10,7 @@ class VentanillaController extends Controller
     public function index()
     {
         $ventanillas = Ventanilla::all();
-        return response()->json($ventanillas);
+        return response()->json($ventanillas, 200);
     }
 
     public function store(Request $request)
@@ -21,7 +21,7 @@ class VentanillaController extends Controller
         ]);
 
         $ventanilla = Ventanilla::create($request->all());
-        return response()->json($ventanilla, 201);
+        return response()->json($ventanilla, 200);
     }
 
     public function show($id)
@@ -39,13 +39,13 @@ class VentanillaController extends Controller
 
         $ventanilla = Ventanilla::findOrFail($id);
         $ventanilla->update($request->all());
-        return response()->json($ventanilla);
+        return response()->json($ventanilla, 200);
     }
 
     public function destroy($id)
     {
         $ventanilla = Ventanilla::findOrFail($id);
         $ventanilla->delete();
-        return response()->json(null, 204);
+        return response()->json(compact('ventanilla'), 200);
     }
 }

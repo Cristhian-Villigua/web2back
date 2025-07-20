@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facturas', function (Blueprint $table) {
+         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
             $table->decimal('monto', 8, 2);
             $table->foreignId('reserva_id')->constrained('reservas')->onDelete('cascade')->unique();
