@@ -60,7 +60,7 @@ class UsuarioController extends Controller
         return response()->json($usuario, 200);
     }
 
-        public function register(Request $request)
+    public function register(Request $request)
     {
         $request->validate([
             'nombres' => 'required|string|max:100',
@@ -82,7 +82,12 @@ class UsuarioController extends Controller
         $usuario->user_id = $user->id;
         $usuario->save();
 
-        return response()->json($usuario, 200);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'usuario' => $usuario,
+            'token' => $token,
+        ], 200);
     }
 
     public function show($id)
