@@ -60,6 +60,31 @@ class UsuarioController extends Controller
         return response()->json($usuario, 200);
     }
 
+        public function register(Request $request)
+    {
+        $request->validate([
+            'nombres' => 'required|string|max:100',
+            'apellidos' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:5|confirmed',
+        ]);
+
+        $user = new User();
+        $user->name = $request->nombres . ' ' . $request->apellidos;
+        $user->email = $request->email;
+        $user->password = \Hash::make($request->password);
+        $user->role = ("usuario"); // asignamos el rol
+        $user->save();
+
+        $usuario = new Usuario();
+        $usuario->nombres = $request->nombres;
+        $usuario->apellidos = $request->apellidos;
+        $usuario->user_id = $user->id;
+        $usuario->save();
+
+        return response()->json($usuario, 200);
+    }
+
     public function show($id)
     {
         $usuario = Usuario::with('user')->findOrFail($id);
