@@ -40,7 +40,7 @@ class ReservaController extends Controller
 
         // Override ventanilla_id to 'web'
         $data = $request->all();
-        $data['ventanilla_id'] = 'web';
+        $data['ventanilla_id'] = '1';
 
         $reserva = Reserva::create($data);
         return response()->json($reserva, 200);
