@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('origen', 100);
             $table->string('destino', 100);
-            $table->string('duracion', 100);
+            $table->time('duracion')->nullable();
             $table->date('fechaSalida');
             $table->time('horaSalida')->nullable();
+            $table->float('precio');
             $table->foreignId('cooperativa_id')->constrained('cooperativas')->onDelete('cascade');
             $table->foreignId('bus_id')->constrained('buses')->onDelete('cascade');
             $table->timestamps();

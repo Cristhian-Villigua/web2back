@@ -15,6 +15,7 @@ class Ruta extends Model
         'duracion',
         'fechaSalida',
         'horaSalida',
+        'precio',
         'cooperativa_id',
         'bus_id',
     ];

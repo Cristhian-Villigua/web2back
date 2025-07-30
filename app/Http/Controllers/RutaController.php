@@ -11,25 +11,23 @@ class RutaController extends Controller
 {
     public function index()
     {
-        // Carga la ruta, su cooperativa y el bus asignado
         $rutas = Ruta::with(['cooperativa', 'bus'])->get();
         return response()->json($rutas, 200);
     }
 
     public function store(Request $request)
     {
-        // Validar todos los campos necesarios
         $request->validate([
             'origen' => 'required|string|max:100',
             'destino' => 'required|string|max:100',
-            'duracion' => 'required|string|max:100',
+            'duracion' => 'required|date_format:H:i',
             'fechaSalida' => 'required|date',
             'horaSalida' => 'required|date_format:H:i',
+            'precio' => 'required|numeric|min:0',
             'cooperativa_id' => 'required|exists:cooperativas,id',
             'bus_id' => 'required|exists:buses,id',
         ]);
 
-        // Validar que el bus seleccionado pertenece a la cooperativa indicada
         $bus = Bus::where('id', $request->bus_id)
                   ->where('cooperativa_id', $request->cooperativa_id)
                   ->first();
@@ -42,7 +40,7 @@ class RutaController extends Controller
 
         $ruta = Ruta::create($request->all());
 
-        return response()->json($ruta, 201);
+        return response()->json($ruta, 200);
     }
 
     public function show($id)
@@ -56,16 +54,16 @@ class RutaController extends Controller
         $request->validate([
             'origen' => 'sometimes|required|string|max:100',
             'destino' => 'sometimes|required|string|max:100',
-            'duracion' => 'sometimes|required|string|max:100',
+            'duracion' => 'sometimes|required|date_format:H:i',
             'fechaSalida' => 'sometimes|required|date',
             'horaSalida' => 'sometimes|required|date_format:H:i',
+            'precio' => 'sometimes|required|numeric|min:0',
             'cooperativa_id' => 'sometimes|required|exists:cooperativas,id',
             'bus_id' => 'sometimes|required|exists:buses,id',
         ]);
 
         $ruta = Ruta::findOrFail($id);
 
-        // Si vienen bus_id y cooperativa_id validar relación
         if ($request->has(['bus_id', 'cooperativa_id'])) {
             $bus = Bus::where('id', $request->bus_id)
                       ->where('cooperativa_id', $request->cooperativa_id)

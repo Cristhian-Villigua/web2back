@@ -38,14 +38,14 @@ class UsuarioController extends Controller
             'dirrecion' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:5',
-            'role' => 'required|in:proveedor,empleado', // validamos el rol
+            'role' => 'required|in:proveedor,empleado', 
         ]);
 
         $user = new User();
         $user->name = $request->nombres . ' ' . $request->apellidos;
         $user->email = $request->email;
         $user->password = \Hash::make($request->password);
-        $user->role = $request->role; // asignamos el rol
+        $user->role = $request->role; 
         $user->save();
 
         $usuario = new Usuario();
@@ -68,22 +68,18 @@ class UsuarioController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:5|confirmed',
         ]);
-
         $user = new User();
         $user->name = $request->nombres . ' ' . $request->apellidos;
         $user->email = $request->email;
         $user->password = \Hash::make($request->password);
-        $user->role = ("usuario"); // asignamos el rol
+        $user->role = ("usuario");
         $user->save();
-
         $usuario = new Usuario();
         $usuario->nombres = $request->nombres;
         $usuario->apellidos = $request->apellidos;
         $usuario->user_id = $user->id;
         $usuario->save();
-
         $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'usuario' => $usuario,
             'token' => $token,
@@ -108,10 +104,6 @@ class UsuarioController extends Controller
             'email' => 'sometimes|required|email|unique:users,email,' . $usuario->user->id,
             'password' => 'nullable|string|min:6|confirmed', 
         ]);
-
-        
-
-        // Actualizar datos en la tabla users
         $user = User::findOrFail($usuario->user_id);
         if ($request->has('nombres') || $request->has('apellidos')) {
             $user->name = ($request->nombres ?? $usuario->nombres) . ' ' . ($request->apellidos ?? $usuario->apellidos);
@@ -123,25 +115,17 @@ class UsuarioController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
-
-        // Actualizar datos en la tabla usuarios
         $usuario->update($request->all());
-
         return response()->json($usuario, 200);
     }
 
     public function destroy($id)
     {
         $usuario = Usuario::findOrFail($id);
-
-        // Eliminar al usuario asociado en la tabla users
         if ($usuario->user) {
             $usuario->user->delete();
         }
-
-        // Eliminar el registro en la tabla usuarios
         $usuario->delete();
-
         return response()->json(compact('usuario'), 200);
     }
 }
