@@ -31,6 +31,10 @@ Route::prefix('auth')->group(function (){
     Route::post('login', [AuthController::class, 'login']);
 });
 
+route::prefix('destinos')->group(function(){
+    Route::get('/rutas', [RutaController::class, 'index']);
+});
+
 Route::get('/admin/user-counts', [AdminController::class, 'countByRole']);
 
 Route::middleware(['jwt.verify', 'role:admin'])->prefix('admin')->group(function(){
@@ -56,7 +60,7 @@ Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('empleado')->g
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
 });
 
-Route::middleware(['jwt.verify', 'role:admin'])->prefix('users')->group(function(){
+Route::middleware(['jwt.verify', 'role:admin,usuario'])->prefix('users')->group(function(){
     Route::get('/usuarios', [UsuarioController::class, 'index']);
     Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
     Route::post('/usuarios', [UsuarioController::class, 'store']);
@@ -87,3 +91,5 @@ Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('rutas')->grou
     Route::put('/rutas/{id}', [RutaController::class, 'update']);
     Route::delete('/rutas/{id}', [RutaController::class, 'destroy']);
 });
+
+
