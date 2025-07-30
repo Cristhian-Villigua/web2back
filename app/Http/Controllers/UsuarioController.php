@@ -150,7 +150,7 @@ class UsuarioController extends Controller
         }
         $user->save();
         $usuario->update($request->all());
-        return response()->json($usuario, 200);
+        return response()->json(compact('usuario'), 200);
     }
 
     public function destroy($id)
