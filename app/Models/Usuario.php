@@ -17,6 +17,8 @@ class Usuario extends Model
         'cedula',
         'celular',
         'dirrecion',
+        'ciudad',
+        'provincia',
         'user_id',
     ];
 

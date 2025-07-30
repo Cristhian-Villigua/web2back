@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('cedula', 100)->unique();
             $table->string('celular', 100);
             $table->string('dirrecion', 100);
+            $table->string('ciudad', 100);
+            $table->string('provincia', 100);
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

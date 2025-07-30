@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CooperativaController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\RutaController;
+use App\Http\Controllers\ReservaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,7 +64,10 @@ Route::middleware(['jwt.verify', 'role:admin,proveedor'])->prefix('empleado')->g
 Route::middleware(['jwt.verify', 'role:admin,usuario'])->prefix('users')->group(function(){
     Route::get('/usuarios', [UsuarioController::class, 'index']);
     Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
+    Route::get('/perfil/{id}', [UsuarioController::class, 'showid']);
+    Route::put('/perfil/{id}', [UsuarioController::class, 'updateclient']);
     Route::post('/usuarios', [UsuarioController::class, 'store']);
+    Route::post('/confirmacion', [ReservaController::class, 'ventaweb']);
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
 });

@@ -28,6 +28,24 @@ class ReservaController extends Controller
         return response()->json($reserva, 200);
     }
 
+    public function ventaweb(Request $request)
+    {
+        $request->validate([
+            'fecha_reserva' => 'required|date',
+            'hora_reserva' => ['required', 'date_format:H:i:s'],
+            'ruta_id' => 'required|exists:rutas,id',
+            'bus_id' => 'required|string',
+            'usuario_id' => 'required|exists:usuarios,id',
+        ]);
+
+        // Override ventanilla_id to 'web'
+        $data = $request->all();
+        $data['ventanilla_id'] = 'web';
+
+        $reserva = Reserva::create($data);
+        return response()->json($reserva, 200);
+    }
+
     public function show($id)
     {
         $reserva = Reserva::findOrFail($id);
@@ -38,9 +56,9 @@ class ReservaController extends Controller
     {
         $request->validate([
             'fecha_reserva' => 'date',
-            'hora_reserva' => 'time',
+            'hora_reserva' => ['date_format:H:i:s'],
             'ruta_id' => 'exists:rutas,id',
-            'bus_id' => 'exists:buses,id',
+            'bus_id' => 'string',
             'ventanilla_id' => 'exists:ventanillas,id',
             'usuario_id' => 'exists:usuarios,id',
         ]);
